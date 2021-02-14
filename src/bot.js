@@ -7,7 +7,7 @@ const config = require('./config.js');
 const _  = require('lodash');
 
 function init(logger, sql) {
-    const c = require('./commands.js')(sql, config)
+    const c = require('./commands.js')(sql, config, logger)
 
     const bot = new ViberBot(logger, {
         authToken: process.env.BOT_AUTH_KEY,
@@ -20,37 +20,53 @@ function init(logger, sql) {
     });
     
     bot.onTextMessage(/.*/i, (message, response) => {
-        if(message === 'slm' || message === 'info') {
-            let slm = 'وَعَلَيْكُمُ ٱلسَّلَامُ'
-            response.send(new TextMessage(`${slm}`))
-            response.send(new TextMessage(
-            `--- Information ---
-            Type 'read' to choose count <br>
-            Type 'number' e.g. 100 to register reading <br>
-            Type 'progress' to see progress details <br>
-            `))
-        } else if(message == 'read'){
-            response.send(getKeyboard())
-        }else if(message == 'progress'){
+        if(isNumeric(message.text)) {
+            c.read(message, response, () => {
+                response.send(new TextMessage(`Thank you ${response.userProfile.name}`))
+                c.info(message, response,
+                    (info) => {
+                        showInfo(response, info)
+                })
+            }, (msg) => {
+                response.send(new TextMessage(`Sorry! ${msg}`))
+            })
+        } else if(['read'].includes(message.text)){
+            response.send(getKeyboard()) // TODO failing t
+        } else if(['info','?'].includes(message.text)){
             c.info(message, response,
                 (info) => {
-                    response.send(new TextMessage(`${info.text}`))
-                    response.send(new TextMessage(`${info.type} count ${info.utterance}. Remaining ${info.remaining} until ${info.expected}`))
+                    showInfo(response, info)
             })
         } else {
-            if(_.isNumber(message)) {
-                c.read(message, response, () => response.send(new TextMessage(`Thank you ${response.userProfile.name}`)))
-            } 
-            c.info(message, response,
-                (info) => {
-                    response.send(new TextMessage(`${info.text}`))
-                    response.send(new TextMessage(`${info.type} count ${info.utterance}. Remaining ${info.remaining} until ${info.expected}`))
-            })
+            response.send(new TextMessage(
+            `
+            --- Help ---
+            Type 'read' to choose count
+            Type 'number' e.g. 100 to register reading
+            Type 'info' to see reading details
+            Type 'help' or '?' to show help information
+            `))    
         }
     });
     return bot
 }
 
+function isNumeric(num){
+    return !isNaN(num)
+}
+
+function showInfo(response, info){
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const remainingDays = daysBetween(new Date(), info.expected)
+    const percentage = ((info.utterance / info.target) * 100).toFixed(2)
+    response.send([new TextMessage(`${info.text}`), new TextMessage(
+        `${info.type} count ${info.utterance} - ${percentage}%.\n` + 
+        `remaining ${info.remaining}\n` + 
+        `${remainingDays} days until ${new Date(info.expected).toLocaleDateString('en-UK',options)}`)])
+}
+function daysBetween(one, another) {
+    return Math.round(Math.abs((+one) - (+another))/8.64e7);
+}
 
 function getKeyboard() {
     var buttons = []
