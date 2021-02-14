@@ -39,11 +39,12 @@ function init(sql,config,logger) {
             let [reading] = await sql`
                 select utterance, started, expected from zikr.reading where zikr = ${type}
             `
+            let remaining = conf.count - reading.utterance
             let info =  {
                 type : type, 
                 utterance: reading.utterance,
                 target: conf.count, 
-                remaining: conf.count - reading.utterance,
+                remaining: remaining < 0 ? 0 : remaining,
                 started: reading.started,
                 expected: reading.expected,
                 text: conf.text

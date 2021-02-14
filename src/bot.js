@@ -30,7 +30,7 @@ function init(logger, sql) {
             }, (msg) => {
                 response.send(new TextMessage(`Sorry! ${msg}`))
             })
-        } else if(['read'].includes(message.text)){
+        } else if(['read', 'zikr', '+'].includes(message.text)){
             response.send(getKeyboard()) // TODO failing t
         } else if(['info','?'].includes(message.text)){
             c.info(message, response,
@@ -41,8 +41,8 @@ function init(logger, sql) {
             response.send(new TextMessage(
             `
             --- Help ---
-            Type 'read' to choose count
-            Type 'number' e.g. 100 to register reading
+            Type '+' to choose count (read, zikr)
+            Type '100' e.g. 100 to register reading
             Type 'info' to see reading details
             Type 'help' or '?' to show help information
             `))    
@@ -70,7 +70,7 @@ function daysBetween(one, another) {
 
 function getKeyboard() {
     var buttons = []
-    [200,500,1000].forEach(item => {
+    for(const item of [100,200,500,1000]){
         buttons.push(
             {
                 "Columns": 3,
@@ -86,7 +86,7 @@ function getKeyboard() {
                 "ActionBody": `${item}`
             }
         )
-    })
+    }
     
     return new KeyboardMessage({
         "Type": "keyboard",

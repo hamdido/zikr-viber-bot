@@ -18,9 +18,10 @@ sudo lsof -i -P | grep -i "listen"
 
 # Commands
 ```
-[slm,info] - show information
-[read] - show interactive menu
-[progress] - show reading progress
+[?,info] - show reading information
+[read,zikr, +] - show interactive menu
+[100] - register reading
+[help, *] - show help
 
 ```
 
@@ -31,6 +32,7 @@ heroku pg:psql --app zikr
 ```
 
 # Deployment
+git push heroku master
 
 # Sharing application
 viber://pa/info?uri=zirkdev
