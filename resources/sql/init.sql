@@ -21,3 +21,4 @@ CREATE TABLE record (
     PRIMARY KEY (id)
 );
 CREATE INDEX record_id_idx ON record (id);
+CREATE INDEX record_zikr_idx ON record (zikr);
