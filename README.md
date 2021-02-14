@@ -16,6 +16,13 @@ psql -h localhost -p 5432 -U postgres
 sudo lsof -i -P | grep -i "listen"
 ```
 
+# Commands
+```
+[slm,info] - show information
+[read] - show interactive menu
+[progress] - show reading progress
+
+```
 
 # Posgres
 
@@ -24,6 +31,9 @@ heroku pg:psql --app zikr
 ```
 
 # Deployment
+
+# Sharing application
+viber://pa/info?uri=zirkdev
 
 # Links
 - https://github.com/Viber/sample-bot-isitup
