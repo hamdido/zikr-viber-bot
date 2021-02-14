@@ -7,7 +7,7 @@ const config = require('./config.js');
 const _  = require('lodash');
 
 function init(logger, sql) {
-    const c = require('./command.js')(sql, config)
+    const c = require('./commands.js')(sql, config)
 
     const bot = new ViberBot(logger, {
         authToken: process.env.BOT_AUTH_KEY,
