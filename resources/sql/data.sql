@@ -1,0 +1,1 @@
+INSERT INTO zikr.reading (zikr, utterance, started, expected) VALUES('salawat', 0, now(), timestamp '2021-04-10 23:59');
