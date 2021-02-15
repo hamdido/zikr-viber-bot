@@ -20,7 +20,7 @@ function init(logger, sql) {
     });
     
     bot.onTextMessage(/.*/i, (message, response) => {
-        logger.debug(`-----> Message '${message.text}' from ${response.userProfile.id} token '${message.token}'`)
+        logger.info(`Message '${message.text}' from ${response.userProfile.id} token '${message.token}'`)
         if(isNumeric(message.text)) {
             c.read(message, response, () => {
                 response.send(new TextMessage(`Thank you ${response.userProfile.name}`))
@@ -32,7 +32,7 @@ function init(logger, sql) {
                 response.send(new TextMessage(`Sorry! ${msg}`))
             })
         } else if(['read', 'zikr', '+'].includes(message.text)){
-            response.send(getKeyboard()) // TODO failing t
+            response.send(getKeyboard())
         } else if(['info','?'].includes(message.text)){
             c.info(message, response,
                 (info) => {

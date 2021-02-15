@@ -15,6 +15,11 @@ function init(sql,config,logger) {
                 let conf = utils.reading(type)
                 let addition = _.parseInt(message.text)
                 
+                let messages = await sql`select id from zikr.record where messagetoken = ${messageToken}`
+                if(messages.length > 0) {
+                    logger.warn(`Duplicate message ${messageToken}`)
+                    return;
+                }
                 // validate
                 if(addition > conf.maxentry || addition < conf.minentry) {
                     reject(`Use from ${conf.minentry} to ${conf.maxentry}`)
@@ -23,8 +28,8 @@ function init(sql,config,logger) {
                 
                 // add 
                 await sql`
-                    insert into zikr.record (zikr, profileid, profilename, utterance, created) 
-                    values (${type},${response.userProfile.id},${response.userProfile.name}, ${addition}, now()) returning *
+                    insert into zikr.record (zikr, profileid, profilename, utterance, created, messageToken) 
+                    values (${type},${response.userProfile.id},${response.userProfile.name}, ${addition}, ${message.token}, now()) returning *
                 `
                 await sql`update zikr.reading set utterance = utterance + ${addition} where zikr = ${type}`
                 accept()

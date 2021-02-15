@@ -18,6 +18,7 @@ CREATE TABLE record (
     profilename varchar (50) NULL,
     utterance varchar (50) NULL,
     created timestamp,
+    messagetoken varchar (50) NULL,
     PRIMARY KEY (id)
 );
 CREATE INDEX record_id_idx ON record (id);

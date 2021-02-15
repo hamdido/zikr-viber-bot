@@ -33,11 +33,11 @@ afterEach(() => {
 
 
 test('Should register reading', async () => {
-  await c.read({text:'1000'}, responseUserA, _.noop, () => fail("Unable to take reading"))
+  await c.read({text:'1000', token: '123'}, responseUserA, _.noop, () => fail("Unable to take reading"))
 })
 
 test('Should show info', async () => {
-  await c.info({text:''}, responseUserA, (info) => expect(info.remaining).toBe(999000) , _.noop)  
+  await c.info({text:'', token: '123'}, responseUserA, (info) => expect(info.remaining).toBe(999000) , _.noop)  
 })
 
 
