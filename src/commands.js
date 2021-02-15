@@ -15,9 +15,9 @@ function init(sql,config,logger) {
                 let conf = utils.reading(type)
                 let addition = _.parseInt(message.text)
                 
-                let messages = await sql`select id from zikr.record where messagetoken = ${messageToken}`
+                let messages = await sql`select id from zikr.record where messagetoken = ${message.token}`
                 if(messages.length > 0) {
-                    logger.warn(`Duplicate message ${messageToken}`)
+                    logger.warn(`Duplicate message ${message.token}`)
                     return;
                 }
                 // validate
@@ -28,7 +28,7 @@ function init(sql,config,logger) {
                 
                 // add 
                 await sql`
-                    insert into zikr.record (zikr, profileid, profilename, utterance, created, messageToken) 
+                    insert into zikr.record (zikr, profileid, profilename, utterance, messageToken, created) 
                     values (${type},${response.userProfile.id},${response.userProfile.name}, ${addition}, ${message.token}, now()) returning *
                 `
                 await sql`update zikr.reading set utterance = utterance + ${addition} where zikr = ${type}`
