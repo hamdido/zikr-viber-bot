@@ -35,9 +35,7 @@ heroku pg:psql --app zikr
 git push heroku master
 
 heroku git:remote -a zikr-dev
-git remote rename heroku dev
 heroku git:remote -a zikr-prod
-git remote rename heroku prod
 
 # Sharing application
 viber://pa/info?uri=zirkdev
