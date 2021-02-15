@@ -12,8 +12,10 @@ if (process.env.SERVER_URL) {
     const http = require('http')
     const port = process.env.PORT || 8080
     if(process.env.BOT_REGISTER === 'true') {
+        logger.info("Start sever with webhook registered")
         http.createServer(bot.middleware()).listen(port, () => bot.setWebhook(process.env.NOW_URL || process.env.SERVER_URL));
     } else {
+        logger.info("Start sever")
         http.createServer(bot.middleware()).listen(port);
     }
     
