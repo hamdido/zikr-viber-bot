@@ -31,9 +31,9 @@ function init(logger, sql) {
             }, (msg) => {
                 response.send(new TextMessage(`Sorry! ${msg}`))
             })
-        } else if(['read', 'zikr', '+'].includes(message.text)){
+        } else if(['read', 'zikr', '+'].includes(message.text.toLowerCase())){
             response.send(getKeyboard())
-        } else if(['info','?'].includes(message.text)){
+        } else if(['info','?'].includes(message.text.toLowerCase())){
             c.info(message, response,
                 (info) => {
                     showInfo(response, info)
