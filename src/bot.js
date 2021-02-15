@@ -20,7 +20,7 @@ function init(logger, sql) {
     });
     
     bot.onTextMessage(/.*/i, (message, response) => {
-        logger.debug(`-----> Message '${message.text}' from ${response.userProfile.id}`)
+        logger.debug(`-----> Message '${message.text}' from ${response.userProfile.id} token '${message.token}'`)
         if(isNumeric(message.text)) {
             c.read(message, response, () => {
                 response.send(new TextMessage(`Thank you ${response.userProfile.name}`))
