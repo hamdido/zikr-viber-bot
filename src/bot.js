@@ -57,13 +57,12 @@ function isNumeric(num){
 }
 
 function showInfo(response, info){
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const remainingDays = daysBetween(new Date(), info.expected)
     const percentage = ((info.utterance / info.target) * 100).toFixed(2)
     response.send([new TextMessage(`${info.text}`), new TextMessage(
-        `${info.type} count ${info.utterance} - ${percentage}%.\n` + 
+        `count ${info.utterance} (${percentage}%)\n` + 
         `remaining ${info.remaining}\n` + 
-        `${remainingDays} days until ${new Date(info.expected).toLocaleDateString('en-UK',options)}`)])
+        `${remainingDays} days until ${new Date(info.expected).toLocaleDateString('en-CA')}`)])
 }
 function daysBetween(one, another) {
     return Math.round(Math.abs((+one) - (+another))/8.64e7);
