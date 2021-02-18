@@ -6,4 +6,4 @@ DELETE FROM zikr.record
 WHERE created < '2021-02-14 19:25:49';
 
 DELETE FROM zikr.record 
-WHERE created < now() - INTERVAL '5 days';
+WHERE created < now() - INTERVAL '1 days';

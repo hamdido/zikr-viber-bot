@@ -38,7 +38,7 @@ heroku git:remote -a zikr-dev
 heroku git:remote -a zikr-prod
 
 # Sharing application
-viber://pa/info?uri=zirkdev
+viber://pa/info?uri=zikrdev
 viber://pa/info?uri=salawat
 
 # Links

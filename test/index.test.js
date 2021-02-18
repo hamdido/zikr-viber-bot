@@ -13,10 +13,18 @@ let responseUserA = {
     name: 'UserA'
   }
 }
+let responseAdmin = {
+  userProfile: {
+    id: '002',
+    name: 'Admin'
+  }
+}
 
 beforeAll(async () => {
   await sql`truncate zikr.reading,zikr.record cascade;`
   await sql`INSERT INTO zikr.reading (zikr, utterance, started, expected) VALUES('salawat', 0, now(), now() + INTERVAL '5 day');`
+
+  process.env.ADMINS='002'
 })
 
 afterAll(async () => {
@@ -38,6 +46,14 @@ test('Should register reading', async () => {
 
 test('Should show info', async () => {
   await c.info({text:'', token: '123'}, responseUserA, (info) => expect(info.remaining).toBe(999000) , _.noop)  
+})
+
+test('Should have validation failure', async () => {
+  await c.read({text:'5001', token: '001'}, responseUserA, () => fail("Not allowed") , _.noop)  
+})
+
+test('Should allow for admin', async () => {
+  await c.read({text:'5001', token: '002'}, responseAdmin, _.noop, () => fail("Should allow to admin"))  
 })
 
 

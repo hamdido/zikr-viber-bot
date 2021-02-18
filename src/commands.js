@@ -7,6 +7,10 @@ function init(sql,config,logger) {
         reading: (name) => {
             let [zikr] = config.filter( item => item.name === name)
             return zikr
+        },
+        isAdmin: (response) => {
+            const admins = process.env.ADMINS || ""
+            return admins.includes(response.userProfile.id)
         }
     }
     let command = {
@@ -21,7 +25,7 @@ function init(sql,config,logger) {
                     return;
                 }
                 // validate
-                if(addition > conf.maxentry || addition < conf.minentry) {
+                if(!utils.isAdmin(response) && (addition > conf.maxentry || addition < conf.minentry)) {
                     reject(`Use from ${conf.minentry} to ${conf.maxentry}`)
                     return;
                 }
