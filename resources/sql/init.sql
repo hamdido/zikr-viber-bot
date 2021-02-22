@@ -23,3 +23,4 @@ CREATE TABLE record (
 );
 CREATE INDEX record_id_idx ON record (id);
 CREATE INDEX record_zikr_idx ON record (zikr);
+CREATE unique INDEX record_messagetoken_idx ON record (messagetoken);
