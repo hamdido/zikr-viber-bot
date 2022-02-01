@@ -3,7 +3,7 @@
 # Running locally
 ```
 ngrok http 8080
-BOT_REGISTER=true nodejs index.js
+BOT_REGISTER=true node index.js
 ```
 
 Additional setup
