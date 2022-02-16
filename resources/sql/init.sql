@@ -16,7 +16,7 @@ CREATE TABLE record (
 	zikr varchar (50) NULL,
     profileid varchar (50) NULL,
     profilename varchar (50) NULL,
-    utterance varchar (50) NULL,
+    utterance INT,
     created timestamp,
     messagetoken varchar (50) NULL,
     PRIMARY KEY (id)
