@@ -5,25 +5,39 @@ const ngrok = require('./src/get_public_url');
 const logger = require('./src/logger.js');
 const sql = require('./src/db.js')
 const bot = require('./src/bot.js')(logger,sql);
+express = require('express');
+const app = express();
 
 let server
-
 if (process.env.SERVER_URL) {
     const http = require('http')
-    const port = process.env.PORT || 8080
+    const port = process.env.PORT || 8081
+    const serverUrl  = process.env.SERVER_URL || "http://localhost"
+    const serverPath =  process.env.SERVER_PATH || ""
     if(process.env.BOT_REGISTER === 'true') {
         logger.info("Start sever with webhook registered")
-        http.createServer(bot.middleware()).listen(port, () => bot.setWebhook(process.env.NOW_URL || process.env.SERVER_URL));
+        app.use("/zikrviber", bot.middleware());
+          app.listen(port, () => {
+              console.log(`Application running on port: ${port}`);
+              bot.setWebhook(`${serverUrl}${serverPath}`).catch(error => {
+                  console.log('Can not set webhook on following server. Is it running?');
+                  console.error(error);
+                  process.exit(1);
+              });
+          });
     } else {
-        logger.info("Start sever")
-        http.createServer(bot.middleware()).listen(port);
+        logger.info(`Start sever on ${port}`)
+        app.use(`${serverPath}`, bot.middleware());
+        app.listen(port, () => {
+            console.log(`Application running on port: ${port}`);
+        });
     }
     
 } else {
     logger.debug('Could not find the now.sh/Heroku environment variables. Trying to use local ngrok server');
     ngrok.getPublicUrl().then(publicUrl => {
         const http = require('http');
-        const port = process.env.PORT || 8080;
+        const port = process.env.PORT || 8081;
         logger.info(`Start server on port [${port}]. Public url: ${publicUrl}`)
         server = http.createServer(bot.middleware()).listen(port, () => bot.setWebhook(publicUrl));
     }).catch(error => {

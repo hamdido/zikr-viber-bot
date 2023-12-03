@@ -7,6 +7,7 @@ function createLogger() {
         level: process.env.LOG_LEVEL || 'info',
         handleExceptions: true,
         json: false,
+        format: winston.format.simple(),
         colorize: true,
       }
     }
