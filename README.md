@@ -7,7 +7,7 @@ High level steps
  - Create Postgres database and initialize using init.sql
  - Update Config Vars in Heroku dashboard
  - Deploy application
- - Share link and start using application - e.g. viber://pa/info?uri=zikrdev
+ - Share link and start using application - e.g. viber://pa/info?uri=zikrdev, viber://pa?chatURI=zikrdev
  - Unregister bot when application no longer used.
 
 # Usage
@@ -58,7 +58,11 @@ psql -h localhost -p 5432 -U postgres
 sudo lsof -i -P | grep -i "listen"
 ```
 
-
+Running with different env variables
+```
+NODE_ENV=dev node index.js
+NODE_ENV=prod node index.js
+```
 
 ## Posgres
 
