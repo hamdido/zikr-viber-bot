@@ -83,7 +83,7 @@ function getKeyboard() {
                 "TextOpacity": 60,
                 "TextSize": "regular",
                 "ActionType": "reply",
-                "ActionBody": `menu:${item}`
+                "ActionBody": `${item}`
             }
         )
     }
